@@ -1,0 +1,15 @@
+<p>Lista de productos</p>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre Producto</th>
+            <th>Precio Producto</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of listadoProductos">
+            <td>{{ producto.nombre_producto }}</td>
+            <td>{{ producto.precio_unitario }}</td>
+        </tr>
+    </tbody>
+</table>
