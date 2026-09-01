@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let producto of listadoProductos">
+        <tr *ngFor="let producto of listadoProductos()">
             <td>{{ producto.nombre_producto }}</td>
             <td>{{ producto.precio_unitario }}</td>
         </tr>

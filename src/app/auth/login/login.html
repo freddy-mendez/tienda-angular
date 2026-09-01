@@ -1,0 +1,11 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label>Correo</label>
+    <input type="email" formControlName="email">
+    <label>Contraseña</label>
+    <input type="password" formControlName="password">
+    <button type="submit">Iniciar sesión</button>
+
+    @if (error) {
+        <p>{{error}}</p>
+    }
+</form>
