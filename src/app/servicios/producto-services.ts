@@ -6,7 +6,7 @@ import { Producto } from '../model/producto';
 })
 
 export class ProductoServices {
-    apiUrl: string = 'http://10.5.243.156:8000/api/';
+    apiUrl: string = 'http://10.5.243.245:8000/api/';
 
     getProductos(): Promise<string> {
         return fetch(this.apiUrl+'producto')

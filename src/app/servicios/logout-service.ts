@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class LogouttService {
-    private apiUrl: string = 'http://10.5.243.156:8000/api/';
+    private apiUrl: string = 'http://10.5.243.245:8000/api/';
 
     logout(): Promise<any> {
         return fetch(this.apiUrl + 'logout', {

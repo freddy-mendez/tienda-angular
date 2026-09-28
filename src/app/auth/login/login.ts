@@ -1,45 +1,40 @@
-import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-
+import { Component, signal, inject } from '@angular/core';
+import { FormBuilder,  Validators,  ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { LoginService } from '../../servicios/login-service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login {
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router
-  ) {}
+  errorMessage = signal('');
+  hide = signal(true);
 
-  loginForm = new FormGroup({
-    email: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.email
-      ]
-    }),
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
-    password: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(6)
-      ]
-    })
-  });
+  loginService = inject(LoginService);
+  router = inject(Router);
+
+  private fb = inject(FormBuilder)
+
+  loginForm = this.fb.nonNullable.group({
+    email : ['', [Validators.required, Validators.email]],
+    password : ['', [Validators.required, Validators.minLength(6)]]
+  })
+
+  get email() { return this.loginForm.get('email') }
+  get password() { return this.loginForm.get('password') }
 
   error = '';
 
@@ -74,7 +69,7 @@ export class Login {
         }
 
         // Ir a productos después del login
-        this.router.navigate(['/productos']);
+        this.router.navigate(['/producto']);
 
       })
       .catch(error => {
@@ -86,6 +81,17 @@ export class Login {
 
       });
   }
+  
+  updateErrorMessage() {
+    if (this.email?.hasError('required')) {
+      this.errorMessage.set('You must enter a value');
+    } else if (this.email?.hasError('email')) {
+      this.errorMessage.set('Not a valid email');
+    } else {
+      this.errorMessage.set('');
+    }
+  }
+
 }
 
 

@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Service()
 export class LoginService {
-    private apiUrl: string = 'http://10.5.243.156.8000/api/';
+    private apiUrl: string = 'http://10.5.243.245:8000/api/';
     login(email: string, password: string): Promise<any> {
         return fetch(this.apiUrl + 'login', {
             method: 'POST',
@@ -13,6 +11,7 @@ export class LoginService {
             },
             body: JSON.stringify({ email, password })
         }).then(async response => {
+            console.log(response);
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.message || 'Creedenciales Incorrectas');
