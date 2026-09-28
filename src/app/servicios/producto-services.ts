@@ -16,5 +16,12 @@ export class ProductoServices {
     }).then((response) => response.text());
   }
 
-  //deleteProducto()
+  deleteProducto(id:any, token:any): Promise<string> {
+    return fetch(this.apiUrl + 'producto/'+id, {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    }).then((response) => response.text());
+  }
 }

@@ -4,10 +4,11 @@ import { Producto } from '../../model/producto';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-index',
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, MatIconModule],
   providers: [ProductoServices],
   templateUrl: './index.html',
   styleUrl: './index.css',
@@ -18,7 +19,7 @@ export class Index {
   router = inject(Router)
 
   dataSource = new MatTableDataSource<Producto>([]);
-  displayedColumns = ['id','nombre','precio','cantidad'];
+  displayedColumns = ['id','nombre','precio','cantidad','acciones'];
 
   constructor(private productoServices: ProductoServices) { }
 
@@ -44,6 +45,15 @@ export class Index {
         console.error('Error al obtener los productos');
       }
     });
+  }
+
+  eliminar(id:any) {
+    this.productoServices.deleteProducto(id, this.token).then(result => {
+      let respuesta = JSON.parse(result);
+      if (respuesta && respuesta.result === 'OK') {
+        this.loaddata();
+      }
+    })
   }
 
 }
