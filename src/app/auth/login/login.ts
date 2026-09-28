@@ -60,14 +60,6 @@ export class Login {
           localStorage.setItem('token', response.token);
         }
 
-        // Guardar los datos del usuario
-        if (response.user) {
-          localStorage.setItem(
-            'user',
-            JSON.stringify(response.user)
-          );
-        }
-
         // Ir a productos después del login
         this.router.navigate(['/producto']);
 

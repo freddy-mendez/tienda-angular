@@ -19,4 +19,21 @@ export class LoginService {
             return data;
         });
     }
+
+    logout(token: any): Promise<any> {
+        
+        return fetch(this.apiUrl + 'logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer '+token
+            }
+        }).then(async response => {
+            const data = await response.json();
+
+        if (!response.ok) {
+                throw new Error(data.message || 'Error al cerrar sesión');
+            }
+            return data;
+        });
+    }
 }

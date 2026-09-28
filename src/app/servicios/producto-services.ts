@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Producto } from '../model/producto';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProductoServices {
-    apiUrl: string = 'http://10.5.243.245:8000/api/';
+  apiUrl: string = 'http://10.5.243.245:8000/api/';
 
-    getProductos(): Promise<string> {
-        return fetch(this.apiUrl+'producto')
-            .then(response => response.text());
-    }
+  getProductos(token: any): Promise<string> {
+    return fetch(this.apiUrl + 'producto', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    }).then((response) => response.text());
+  }
 }

@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ProductoServices } from '../../servicios/producto-services';
 import { Producto } from '../../model/producto';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -12,16 +13,23 @@ import { CommonModule } from '@angular/common';
 })
 export class Index {
   listadoProductos = signal<Producto[]>([]);
+  token: string | null = null;
+  router = inject(Router)
 
   constructor(private productoServices: ProductoServices) { }
 
   ngOnInit() {
-
+    this.token=localStorage.getItem("token");
+    console.log('---'+this.token);
+    if (!this.token) {
+      this.router.navigate(['login']);
+      return;
+    }
     this.loaddata();
   }
 
   loaddata() {
-    this.productoServices?.getProductos().then(productos => {
+    this.productoServices?.getProductos(this.token).then(productos => {
       console.log("Inicio");
       let respuesta = JSON.parse(productos);
       if (respuesta && respuesta.result === 'OK') {
