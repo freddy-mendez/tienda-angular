@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { LoginService } from '../../servicios/login-service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-menu',
-  imports: [],
+  imports: [MatButtonModule, MatToolbarModule],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
