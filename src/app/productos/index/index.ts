@@ -14,6 +14,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { EditarDialog } from '../editar-dialog/editar-dialog';
 
 @Component({
   selector: 'app-index',
@@ -117,5 +118,35 @@ export class Index {
         console.log('Producto creado:', producto);
       }
     });
+  }
+
+  editar(id: any) {
+    const dialogRef = this.dialog.open(EditarDialog, {
+      width: '450px',
+      height: '600px',
+      disableClose: true,
+      data: id
+    });
+    dialogRef.afterClosed().subscribe((producto: Producto | undefined) => {
+      if (producto !== undefined) {
+        this.productoServices.editProducto(id, producto, this.token).then((result) => {
+          let respuesta = result;
+          if (respuesta && respuesta.result === 'OK') {
+            this._snackBar.open('Producto actualizado exitosamente', 'Cerrar', {
+              horizontalPosition: this.horizontalPosition(),
+              verticalPosition: this.verticalPosition(),
+            });
+            this.loaddata();
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: 'No se pudo actualizar el producto.',
+              icon: 'error',
+            });
+          }
+        });
+      }
+    });
+
   }
 }
